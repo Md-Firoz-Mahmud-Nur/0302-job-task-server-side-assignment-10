@@ -47,9 +47,15 @@ async function run() {
     });
 
     app.get("/products", async (req, res) => {
-      const query = {};
-      const result = await productsCollection.find().toArray();
-      res.send(result);
+      const page = parseInt(req.query.page);
+      // let query = { brandName: "Samsung" };
+      let query = {};
+      const result = await productsCollection
+        .find(query)
+        .skip(page * 6)
+        .limit(6)
+        .toArray();
+      res.send({ result });
     });
 
     // Send a ping to confirm a successful connection
