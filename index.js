@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const port = process.env.PORT || 7000;
 const { MongoClient, ServerApiVersion } = require("mongodb");
@@ -34,6 +35,9 @@ async function run() {
     // Connect the client to the server (optional starting in v4.7)
     await client.connect();
 
+    const database = client.db("gadgetGalaxyDB");
+    const productsCollection = database.collection("products");
+
     app.post("/jwt", async (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -42,6 +46,11 @@ async function run() {
       res.send({ token });
     });
 
+    app.get("/products", async (req, res) => {
+      const query = {};
+      const result = await productsCollection.find().toArray();
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -50,7 +59,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
