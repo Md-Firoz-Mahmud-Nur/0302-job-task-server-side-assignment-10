@@ -37,6 +37,7 @@ async function run() {
 
     const database = client.db("gadgetGalaxyDB");
     const productsCollection = database.collection("products");
+    const priceCollection = database.collection("price");
 
     app.post("/jwt", async (req, res) => {
       const user = req.body;
@@ -54,12 +55,21 @@ async function run() {
       if (testData.search) {
         query = { name: { $regex: testData.search, $options: "i" } };
       }
-      if (testData.brand) {
+      if (testData.brand.length > 0) {
         query.brand = { $in: testData.brand };
       }
-      if (testData.category) {
+      if (testData.category.length > 0) {
         query.category = { $in: testData.category };
       }
+
+      if (testData.priceSelected.length === 2) {
+        query.price = {
+          $gte: Number(testData.priceSelected[0]),
+          $lte: Number(testData.priceSelected[1]),
+        };
+      }
+
+      console.log(testData.priceSelected[0]);
 
       const result = await productsCollection
         .find(query)
@@ -81,6 +91,12 @@ async function run() {
         .aggregate([{ $group: { _id: "$category" } }, { $sort: { _id: 1 } }])
         .toArray();
 
+      res.send(categories);
+    });
+    app.get("/filter3", async (req, res) => {
+      const categories = await priceCollection
+        .aggregate([{ $group: { _id: "$price" } }, { $sort: { _id: 1 } }])
+        .toArray();
       res.send(categories);
     });
 
