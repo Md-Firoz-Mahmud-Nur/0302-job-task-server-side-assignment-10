@@ -62,11 +62,18 @@ async function run() {
     });
 
     app.get("/filter", async (req, res) => {
-      const brand = await productsCollection
+      const brands = await productsCollection
         .aggregate([{ $group: { _id: "$brand" } }, { $sort: { _id: 1 } }])
         .toArray();
 
-      res.send(brand);
+      res.send(brands);
+    });
+    app.get("/filter2", async (req, res) => {
+      const categories = await productsCollection
+        .aggregate([{ $group: { _id: "$category" } }, { $sort: { _id: 1 } }])
+        .toArray();
+
+      res.send(categories);
     });
 
     // Send a ping to confirm a successful connection
