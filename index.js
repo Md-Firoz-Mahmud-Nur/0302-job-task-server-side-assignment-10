@@ -13,6 +13,10 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:5175",
+      "https://s0301-job-task-scic-ass-10.web.app",
+      "https://s0301-job-task-scic-ass-10.firebaseapp.com",
+      "https://0302-job-task-server-side-assignment-10.vercel.app",
+
     ],
     credentials: true,
   })
@@ -33,7 +37,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server (optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const database = client.db("gadgetGalaxyDB");
     const productsCollection = database.collection("products");
@@ -106,11 +110,11 @@ async function run() {
 
       if (testData.dateSort) {
         sortPrice.time = -1;
-    } else if (testData.dateSort === false) {
-      sortPrice.time = 1;
-    }
+      } else if (testData.dateSort === false) {
+        sortPrice.time = 1;
+      }
 
-    const totalClasses = await productsCollection.countDocuments(query);
+      const totalClasses = await productsCollection.countDocuments(query);
 
       const result = await productsCollection
         .find(query)
@@ -143,10 +147,10 @@ async function run() {
     });
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    // "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
