@@ -83,13 +83,15 @@ async function run() {
       sortPrice.time = 1;
     }
 
+    const totalClasses = await productsCollection.countDocuments(query);
+
       const result = await productsCollection
         .find(query)
         .sort(sortPrice)
         .skip(page * 6)
         .limit(6)
         .toArray();
-      res.send({ result });
+      res.send({ result, totalClasses });
     });
 
     app.get("/filter", async (req, res) => {
