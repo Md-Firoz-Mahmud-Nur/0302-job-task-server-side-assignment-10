@@ -48,19 +48,25 @@ async function run() {
 
     app.get("/products", async (req, res) => {
       const page = parseInt(req.query.page);
-      const search = (req.query.search);
-      console.log(search);
+      const search = req.query.search;
       let query = {};
       if (search) {
-        query = { name: { $regex: search, $options: 'i' } };
+        query = { name: { $regex: search, $options: "i" } };
       }
-      console.log(query);
       const result = await productsCollection
         .find(query)
         .skip(page * 12)
         .limit(12)
         .toArray();
       res.send({ result });
+    });
+
+    app.get("/filter", async (req, res) => {
+      const brand = await productsCollection
+        .aggregate([{ $group: { _id: "$brand" } }, { $sort: { _id: 1 } }])
+        .toArray();
+
+      res.send(brand);
     });
 
     // Send a ping to confirm a successful connection
