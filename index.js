@@ -77,12 +77,17 @@ async function run() {
         sortPrice.price = -1;
       }
 
+      if (testData.dateSort) {
+        sortPrice.time = -1;
+    } else if (testData.dateSort === false) {
+      sortPrice.time = 1;
+    }
 
       const result = await productsCollection
         .find(query)
         .sort(sortPrice)
-        .skip(page * 12)
-        .limit(12)
+        .skip(page * 6)
+        .limit(6)
         .toArray();
       res.send({ result });
     });
