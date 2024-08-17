@@ -48,12 +48,17 @@ async function run() {
 
     app.get("/products", async (req, res) => {
       const page = parseInt(req.query.page);
-      // let query = { brandName: "Samsung" };
+      const search = (req.query.search);
+      console.log(search);
       let query = {};
+      if (search) {
+        query = { name: { $regex: search, $options: 'i' } };
+      }
+      console.log(query);
       const result = await productsCollection
         .find(query)
-        .skip(page * 6)
-        .limit(6)
+        .skip(page * 12)
+        .limit(12)
         .toArray();
       res.send({ result });
     });
