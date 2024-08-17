@@ -69,10 +69,18 @@ async function run() {
         };
       }
 
-      console.log(testData.priceSelected[0]);
+      let sortPrice = {};
+
+      if (testData.sortPrice === "low") {
+        sortPrice.price = 1;
+      } else if (testData.sortPrice === "high") {
+        sortPrice.price = -1;
+      }
+
 
       const result = await productsCollection
         .find(query)
+        .sort(sortPrice)
         .skip(page * 12)
         .limit(12)
         .toArray();
