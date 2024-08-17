@@ -48,11 +48,19 @@ async function run() {
 
     app.get("/products", async (req, res) => {
       const page = parseInt(req.query.page);
-      const search = req.query.search;
+      const testData = JSON.parse(req.query.testData);
+      console.log(testData);
       let query = {};
-      if (search) {
-        query = { name: { $regex: search, $options: "i" } };
+      if (testData.search) {
+        query = { name: { $regex: testData.search, $options: "i" } };
       }
+      if (testData.brand) {
+        query.brand = { $in: testData.brand };
+      }
+      if (testData.category) {
+        query.category = { $in: testData.category };
+      }
+
       const result = await productsCollection
         .find(query)
         .skip(page * 12)
