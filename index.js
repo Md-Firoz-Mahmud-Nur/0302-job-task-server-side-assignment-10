@@ -16,7 +16,7 @@ app.use(
       "https://s0301-job-task-scic-ass-10.web.app",
       "https://s0301-job-task-scic-ass-10.firebaseapp.com",
       "https://0302-job-task-server-side-assignment-10.vercel.app",
-
+      "https://silly-gumption-d629f3.netlify.app",
     ],
     credentials: true,
   })
