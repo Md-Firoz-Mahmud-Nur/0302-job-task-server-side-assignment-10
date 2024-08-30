@@ -1,6 +1,6 @@
 # Gadget Galaxy
 
-[Live Link : Gadget Galaxy](https://s0301-job-task-scic-ass-10.web.app/)
+[Live Link : Gadget Galaxy](https://silly-gumption-d629f3.netlify.app/)
 
 ## Overview
 
